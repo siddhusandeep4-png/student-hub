@@ -1,0 +1,861 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Hub</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f5fb;
+      color: #20243a;
+    }
+
+    header {
+      background: #171a35;
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+    }
+
+    header p {
+      margin: 0;
+      color: #c8cbe0;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 25px auto;
+      padding: 0 16px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px #17203a10;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-top: 0;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 11px;
+      margin-top: 8px;
+      border: 1px solid #d9ddeb;
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    button {
+      background: #5b5ce2;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #4546c4;
+    }
+
+    #savedNotes {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #74788c;
+    }
+
+    body.dark-mode {
+      background: #101322;
+      color: #f2f3ff;
+    }
+
+    body.dark-mode .card,
+    body.dark-mode .welcome {
+      background: #20243a;
+      color: #f2f3ff;
+    }
+
+    body.dark-mode input,
+    body.dark-mode textarea {
+      background: #171a2b;
+      color: white;
+      border-color: #454963;
+    }
+
+    body.dark-mode footer {
+      color: #b8bdd4;
+    }
+ 
+    /* Professional Student Hub Design */
+    body {
+      background: #f5f7fc;
+      color: #20243a;
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      padding: 36px 20px;
+      background: linear-gradient(135deg, #171a35, #4546c4);
+      text-align: left;
+      padding-left: max(24px, calc((100% - 960px) / 2));
+    }
+
+    header h1 {
+      font-size: 32px;
+      letter-spacing: -0.5px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 28px auto;
+      padding: 0 20px;
+    }
+
+    .welcome {
+      border: 1px solid #e7eaf5;
+      box-shadow: 0 5px 20px #17203a08;
+    }
+
+    .grid {
+      gap: 20px;
+    }
+
+    .card {
+      border: 1px solid #e7eaf5;
+      box-shadow: 0 5px 20px #17203a08;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px #17203a12;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid #dce1ef;
+      background: #fbfcff;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #5b5ce2;
+    }
+
+    button {
+      font-weight: 600;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    body.dark-mode {
+      background: #101322;
+      color: #f2f3ff;
+    }
+
+    body.dark-mode .card,
+    body.dark-mode .welcome {
+      background: #20243a;
+      color: #f2f3ff;
+      border-color: #333852;
+    }
+
+    body.dark-mode input,
+    body.dark-mode textarea {
+      background: #171a2b;
+      color: #fff;
+      border-color: #454963;
+    }
+
+    body.dark-mode footer {
+      color: #b8bdd4;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 28px 18px;
+      }
+
+      header h1 {
+        font-size: 26px;
+      }
+
+      main {
+        padding: 0 12px;
+      }
+
+      .card, .welcome {
+        padding: 16px;
+      }
+    }
+</style>
+</head>
+
+<body>
+ 
+  <button id="themeButton" onclick="toggleTheme()"
+    style="position:fixed;top:12px;right:12px;width:auto;z-index:10;">
+    🌙 Dark Mode
+  </button>
+ <header>
+    <h1>🎓 Student Hub</h1>
+    <p>Your personal student dashboard</p>
+  </header>
+
+  <main>
+    <section class="welcome">
+      <h2>Welcome, Student!</h2>
+      <p>Organize your studies in one place.</p>
+    </section>
+
+    
+    <section class="grid">
+      <div class="card">
+        <h2>📅 Class Timetable</h2>
+        <p>Monday – Friday</p>
+        <input id="subject" placeholder="Subject name">
+        <input id="classTime" placeholder="Time (e.g. 9:00 AM)">
+        <button onclick="addClass()">Add Class</button>
+        <ul id="timetable"></ul>
+      </div>
+
+      <div class="card">
+        <h2>📊 Attendance Tracker</h2>
+        <input id="attended" type="number" min="0" placeholder="Classes attended">
+        <input id="held" type="number" min="0" placeholder="Total classes held">
+        <button onclick="calculateAttendance()">Calculate Attendance</button>
+        <p id="attendanceResult"></p>
+      </div>
+    </section>
+<section class="grid">
+      <div class="card">
+        <h2>📝 Quick Notes</h2>
+        <textarea id="notes" rows="5"
+          placeholder="Write your study notes here..."></textarea>
+        <button onclick="saveNotes()">Save Notes</button>
+        <p id="noteStatus"></p>
+      </div>
+
+      <div class="card">
+        <h2>📚 To-Do List</h2>
+        <input id="taskInput" placeholder="Enter a study task">
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+      </div>
+
+      <div class="card">
+        <h2>⏱️ Focus Timer</h2>
+        <p id="timer">25:00</p>
+        <button onclick="startTimer()">Start 25-Minute Focus</button>
+        <button onclick="resetTimer()">Reset Timer</button>
+      </div>
+
+      <div class="card">
+        <h2>🧮 Percentage Calculator</h2>
+        <input id="marks" type="number" placeholder="Marks obtained">
+        <input id="total" type="number" placeholder="Total marks">
+        <button onclick="calculatePercentage()">Calculate</button>
+        <p id="result"></p>
+      </div>
+    </section>
+  </main>
+
+  
+    <section class="card" style="margin-top:20px;">
+      <h2>📚 Assignments & Deadlines</h2>
+
+      <input id="assignmentName" placeholder="Assignment name">
+
+      <label for="assignmentDate">Due date:</label>
+      <input id="assignmentDate" type="date">
+
+      <button onclick="addAssignment()">Add Assignment</button>
+
+      <ul id="assignmentList"></ul>
+    </section>
+
+    <section class="card" style="margin-top:20px;">
+      <h2>🎓 SGPA Calculator</h2>
+      <p>Enter subject grades and credits.</p>
+
+      <div id="subjects">
+        <div class="subject-row">
+          <input type="number" class="grade" placeholder="Grade points (e.g. 9)">
+          <input type="number" class="credit" placeholder="Credits (e.g. 3)">
+        </div>
+      </div>
+
+      <button onclick="addSubject()">+ Add Subject</button>
+      <button onclick="calculateSGPA()">Calculate SGPA</button>
+      <p id="sgpaResult"></p>
+    </section>
+
+    <section class="card" style="margin-top:20px;">
+      <h2>🎓 CGPA Calculator</h2>
+      <p>Enter completed semester SGPAs.</p>
+
+      <div id="semesters">
+        <input type="number" class="semester" min="0" max="10" step="0.01"
+          placeholder="Semester 1 SGPA">
+      </div>
+
+      <button onclick="addSemester()">+ Add Semester</button>
+      <button onclick="calculateCGPA()">Calculate CGPA</button>
+      <p id="cgpaResult"></p>
+    </section>
+
+    <section class="card" style="margin-top:20px;">
+      <h2>🎯 Attendance Target Calculator</h2>
+      <p>Calculate how many consecutive classes you need to attend to reach your target.</p>
+
+      <input id="currentAttended" type="number" min="0"
+        placeholder="Classes attended">
+
+      <input id="currentHeld" type="number" min="1"
+        placeholder="Total classes held">
+
+      <input id="targetAttendance" type="number" min="1" max="100"
+        value="75" placeholder="Target attendance (%)">
+
+      <button onclick="calculateTarget()">Calculate Required Classes</button>
+      <p id="targetResult"></p>
+    </section>
+
+    <section class="card" style="margin-top:20px;">
+      <h2>📅 Exams Countdown</h2>
+      <input id="examName" type="text" placeholder="Exam name">
+      <label for="examDate">Exam date:</label>
+      <input id="examDate" type="date">
+      <button onclick="calculateCountdown()">Calculate Countdown</button>
+      <p id="countdownResult"></p>
+    </section>
+
+    <section class="card" style="margin-top:20px;">
+      <h2>💾 Backup & Restore</h2>
+      <p>Save your student data to a backup file or restore it later.</p>
+
+      <button onclick="exportBackup()">Download Backup</button>
+
+      <label for="backupFile">Select a backup file:</label>
+      <input id="backupFile" type="file" accept=".json,application/json">
+
+      <button onclick="importBackup()">Restore Backup</button>
+      <p id="backupStatus"></p>
+    </section>
+<footer>Made for students ❤️</footer>
+
+  <script>
+    const notes = document.getElementById("notes");
+    const taskList = document.getElementById("taskList");
+    const timerDisplay = document.getElementById("timer");
+
+    notes.value = localStorage.getItem("studentNotes") || "";
+
+   
+    let classes = JSON.parse(localStorage.getItem("studentClasses") || "[]");
+
+    function renderTimetable() {
+      const list = document.getElementById("timetable");
+      list.innerHTML = "";
+
+      classes.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.textContent = item.subject + " — " + item.time + " ";
+
+        const btn = document.createElement("button");
+        btn.textContent = "Delete";
+        btn.onclick = () => {
+          classes.splice(index, 1);
+          localStorage.setItem("studentClasses", JSON.stringify(classes));
+          renderTimetable();
+        };
+
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+    }
+
+    function addClass() {
+      const subject = document.getElementById("subject").value.trim();
+      const time = document.getElementById("classTime").value.trim();
+
+      if (!subject || !time) {
+        alert("Enter subject name and class time!");
+        return;
+      }
+
+      classes.push({ subject, time });
+      localStorage.setItem("studentClasses", JSON.stringify(classes));
+
+      document.getElementById("subject").value = "";
+      document.getElementById("classTime").value = "";
+      renderTimetable();
+    }
+
+    function calculateAttendance() {
+      const a = document.getElementById("attended").value;
+      const h = document.getElementById("held").value;
+      const result = document.getElementById("attendanceResult");
+
+      if (a === "" || h === "" || Number(h) <= 0 ||
+          Number(a) < 0 || Number(a) > Number(h)) {
+        result.textContent = "Enter valid attendance numbers.";
+        return;
+      }
+
+      result.textContent =
+        "Your attendance: " + ((Number(a) / Number(h)) * 100).toFixed(2) + "%";
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+
+      const dark = document.body.classList.contains("dark-mode");
+
+      localStorage.setItem("studentTheme", dark ? "dark" : "light");
+
+      document.getElementById("themeButton").textContent =
+        dark ? "☀️ Light Mode" : "🌙 Dark Mode";
+    }
+ 
+    let assignments = JSON.parse(
+      localStorage.getItem("studentAssignments") || "[]"
+    );
+
+    function renderAssignments() {
+      const list = document.getElementById("assignmentList");
+      list.innerHTML = "";
+
+      assignments.forEach((assignment, index) => {
+        const li = document.createElement("li");
+        li.style.marginTop = "10px";
+
+        li.textContent =
+          assignment.name + " — Due: " + assignment.date + " ";
+
+        const btn = document.createElement("button");
+        btn.textContent = "Delete";
+        btn.style.width = "auto";
+
+        btn.onclick = () => {
+          assignments.splice(index, 1);
+          localStorage.setItem(
+            "studentAssignments",
+            JSON.stringify(assignments)
+          );
+          renderAssignments();
+        };
+
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+    }
+
+    function addAssignment() {
+      const name = document.getElementById("assignmentName").value.trim();
+      const date = document.getElementById("assignmentDate").value;
+
+      if (!name || !date) {
+        alert("Enter assignment name and due date!");
+        return;
+      }
+
+      assignments.push({ name, date });
+      localStorage.setItem(
+        "studentAssignments",
+        JSON.stringify(assignments)
+      );
+
+      document.getElementById("assignmentName").value = "";
+      document.getElementById("assignmentDate").value = "";
+
+      renderAssignments();
+    }
+
+    function addSubject() {
+      const row = document.createElement("div");
+      row.className = "subject-row";
+      row.innerHTML = `
+        <input type="number" class="grade" min="0" max="10" step="0.01"
+          placeholder="Grade points">
+        <input type="number" class="credit" min="1"
+          placeholder="Credits">
+      `;
+      document.getElementById("subjects").appendChild(row);
+    }
+
+    function calculateSGPA() {
+      const grades = [...document.querySelectorAll("#subjects .grade")];
+      const credits = [...document.querySelectorAll("#subjects .credit")];
+
+      let weightedTotal = 0;
+      let creditTotal = 0;
+
+      for (let i = 0; i < grades.length; i++) {
+        const g = grades[i].value;
+        const c = credits[i].value;
+
+        if (g === "" || c === "" ||
+            Number(g) < 0 || Number(g) > 10 || Number(c) <= 0) {
+          document.getElementById("sgpaResult").textContent =
+            "Enter valid grade points (0–10) and positive credits.";
+          return;
+        }
+
+        weightedTotal += Number(g) * Number(c);
+        creditTotal += Number(c);
+      }
+
+      document.getElementById("sgpaResult").textContent =
+        "SGPA: " + (weightedTotal / creditTotal).toFixed(2);
+    }
+
+    function addSemester() {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.className = "semester";
+      input.min = "0";
+      input.max = "10";
+      input.step = "0.01";
+      input.placeholder = "Next semester SGPA";
+      document.getElementById("semesters").appendChild(input);
+    }
+
+    function calculateCGPA() {
+      const inputs = [...document.querySelectorAll(".semester")];
+      const values = inputs.map(input => input.value);
+
+      if (values.some(v => v === "" || Number(v) < 0 || Number(v) > 10)) {
+        document.getElementById("cgpaResult").textContent =
+          "Enter valid SGPAs between 0 and 10.";
+        return;
+      }
+
+      const total = values.reduce((sum, value) => sum + Number(value), 0);
+
+      document.getElementById("cgpaResult").textContent =
+        "CGPA: " + (total / values.length).toFixed(2);
+    }
+
+    function calculateTarget() {
+      const attendedInput = document.getElementById("currentAttended").value;
+      const heldInput = document.getElementById("currentHeld").value;
+      const targetInput = document.getElementById("targetAttendance").value;
+      const result = document.getElementById("targetResult");
+
+      const attended = Number(attendedInput);
+      const held = Number(heldInput);
+      const target = Number(targetInput);
+
+      if (
+        attendedInput === "" || heldInput === "" || targetInput === "" ||
+        held <= 0 || attended < 0 || attended > held ||
+        target <= 0 || target > 100
+      ) {
+        result.textContent = "Please enter valid attendance values.";
+        return;
+      }
+
+      const required = Math.max(
+        0,
+        Math.ceil((target * held - 100 * attended) / (100 - target))
+      );
+
+      if (target === 100) {
+        result.textContent = attended === held
+          ? "You currently have 100% attendance."
+          : "Attend all future classes to improve your attendance; 100% may not be reachable if classes are missed.";
+        return;
+      }
+
+      result.textContent = required === 0
+        ? "You have already reached your target attendance."
+        : "Attend the next " + required + " consecutive classes to reach your target.";
+    }
+
+    function calculateCountdown() {
+      const name = document.getElementById("examName").value.trim();
+      const dateValue = document.getElementById("examDate").value;
+      const result = document.getElementById("countdownResult");
+
+      if (!name || !dateValue) {
+        result.textContent = "Please enter the exam name and date.";
+        return;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const examDate = new Date(dateValue + "T00:00:00");
+      const days = Math.round((examDate - today) / 86400000);
+
+      if (days < 0) {
+        result.textContent = name + " has already passed.";
+      } else if (days === 0) {
+        result.textContent = name + " is today!";
+      } else {
+        result.textContent = days + " days until " + name + ".";
+      }
+    }
+
+    const backupKeys = [
+      "studentNotes",
+      "studentTasks",
+      "studentClasses",
+      "studentAssignments",
+      "studentTheme"
+    ];
+
+    function exportBackup() {
+      const backup = {
+        app: "Student Hub",
+        version: 1,
+        createdAt: new Date().toISOString(),
+        data: {}
+      };
+
+      backupKeys.forEach(key => {
+        const value = localStorage.getItem(key);
+        if (value !== null) {
+          backup.data[key] = value;
+        }
+      });
+
+      const blob = new Blob(
+        [JSON.stringify(backup, null, 2)],
+        { type: "application/json" }
+      );
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "student-hub-backup.json";
+      link.click();
+      URL.revokeObjectURL(url);
+
+      document.getElementById("backupStatus").textContent =
+        "Backup downloaded successfully.";
+    }
+
+    function importBackup() {
+      const fileInput = document.getElementById("backupFile");
+      const status = document.getElementById("backupStatus");
+      const file = fileInput.files[0];
+
+      if (!file) {
+        status.textContent = "Please select a backup file.";
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        try {
+          const backup = JSON.parse(reader.result);
+
+          if (
+            backup.app !== "Student Hub" ||
+            !backup.data ||
+            typeof backup.data !== "object" ||
+            Array.isArray(backup.data)
+          ) {
+            throw new Error("Invalid backup file.");
+          }
+
+          for (const key of backupKeys) {
+            if (
+              Object.prototype.hasOwnProperty.call(backup.data, key) &&
+              typeof backup.data[key] !== "string"
+            ) {
+              throw new Error("Invalid backup data.");
+            }
+          }
+
+          if (!confirm("Restore this backup? Existing saved data for these items will be replaced.")) {
+            return;
+          }
+
+          backupKeys.forEach(key => {
+            if (Object.prototype.hasOwnProperty.call(backup.data, key)) {
+              localStorage.setItem(key, backup.data[key]);
+            }
+          });
+
+          status.textContent =
+            "Backup restored. Refresh the page to display the restored data.";
+        } catch (error) {
+          status.textContent =
+            "Could not restore the file. Please select a valid Student Hub backup.";
+        }
+      };
+
+      reader.readAsText(file);
+    }
+function saveNotes() {
+      localStorage.setItem("studentNotes", notes.value);
+      document.getElementById("noteStatus").textContent = "Notes saved!";
+    }
+
+    let tasks = JSON.parse(localStorage.getItem("studentTasks") || "[]");
+
+    function renderTasks() {
+      taskList.innerHTML = "";
+
+      tasks.forEach((task, index) => {
+        const li = document.createElement("li");
+        li.style.marginTop = "10px";
+
+        const label = document.createElement("label");
+        label.style.display = "flex";
+        label.style.alignItems = "center";
+        label.style.gap = "8px";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.style.width = "auto";
+        checkbox.checked = task.done;
+
+        checkbox.addEventListener("change", () => {
+          tasks[index].done = checkbox.checked;
+          localStorage.setItem("studentTasks", JSON.stringify(tasks));
+         
+   
+    renderAssignments();
+ renderTimetable();
+ renderTasks();
+        });
+
+        const span = document.createElement("span");
+        span.textContent = task.text;
+        if (task.done) span.style.textDecoration = "line-through";
+
+        const remove = document.createElement("button");
+        remove.textContent = "Delete";
+        remove.style.width = "auto";
+        remove.style.marginLeft = "auto";
+        remove.onclick = () => {
+          tasks.splice(index, 1);
+          localStorage.setItem("studentTasks", JSON.stringify(tasks));
+          renderTasks();
+        };
+
+        label.append(checkbox, span, remove);
+        li.appendChild(label);
+        taskList.appendChild(li);
+      });
+    }
+
+    function addTask() {
+      const input = document.getElementById("taskInput");
+      const text = input.value.trim();
+
+      if (!text) {
+        alert("First enter a task!");
+        return;
+      }
+
+      tasks.push({ text, done: false });
+      localStorage.setItem("studentTasks", JSON.stringify(tasks));
+      input.value = "";
+      renderTasks();
+    }
+
+    let seconds = 25 * 60;
+    let timerInterval = null;
+
+    function updateTimer() {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      timerDisplay.textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(remainingSeconds).padStart(2, "0");
+    }
+
+    function startTimer() {
+      if (timerInterval !== null) return;
+
+      timerInterval = setInterval(() => {
+        if (seconds > 0) {
+          seconds--;
+          updateTimer();
+        } else {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          alert("Focus session complete!");
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      seconds = 25 * 60;
+      updateTimer();
+    }
+
+    function calculatePercentage() {
+      const marks = Number(document.getElementById("marks").value);
+      const total = Number(document.getElementById("total").value);
+      const result = document.getElementById("result");
+
+      if (
+        document.getElementById("marks").value === "" ||
+        document.getElementById("total").value === "" ||
+        total <= 0 || marks < 0 || marks > total
+      ) {
+        result.textContent = "Enter valid marks and total.";
+        return;
+      }
+
+      result.textContent =
+        "Percentage: " + ((marks / total) * 100).toFixed(2) + "%";
+    }
+
+    renderTasks();
+    updateTimer();
+ 
+    if (localStorage.getItem("studentTheme") === "dark") {
+      document.body.classList.add("dark-mode");
+      document.getElementById("themeButton").textContent = "☀️ Light Mode";
+    }
+ </script>
+</body>
+</html>
+
